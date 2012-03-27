@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+VERSION=0.0.1
+
+function help (){
+  echo 'Usage:  $ fiesta <app> <buildpack>'
+}
+
+function version (){
+    echo "Fiesta, v$VERSION"
+}
+
+function temp-dir (){
+    TMPDIR=`mktemp -d /tmp/fiesta.XXXXXX`
+    if [ $? -ne 0 ]; then
+        echo "$0: Can't create temp file, exiting..."
+        exit 1
+    fi
+}
+
+function upload-dir (){
+    LOCAL_DIR="$1"
+
+    # Create a temporary directory.
+    temp-dir
+
+    # Shallow copy all the files there.
+    cp -r * $TMPDIR
+
+    # Repo it up.
+    cd $TMPDIR
+    git init
+    git add -A
+    git commit -m 'fiesta'
+
+    GISTURL=$( curl -s -d '{"files": {"hmm": {"content": "_"}}, "public": false}' https://api.github.com/gists | grep 'git@gist.github.com:[0-9A-Za-z]*.git' -o -G --color=never)
+    git push $GISTURL master --force
+    rm -fr $TMPDIR
+}
+
+upload-dir .
