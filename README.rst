@@ -11,15 +11,15 @@ Usage
 
 Deploy a public app with a public buildpack::
 
-    $ fiesta --app  git@github.com:kennethreitz/httpbin.git --buildpack git@github.com:heroku/heroku-buildpack-python.git
+    $ fiesta git@github.com:kennethreitz/httpbin.git git@github.com:heroku/heroku-buildpack-python.git
 
 Deploy a local app with a public buildpack::
 
-    $ fiesta --app ./httpbin --buildpack git@github.com:heroku/heroku-buildpack-python.git
+    $ fiesta ./httpbin git@github.com:heroku/heroku-buildpack-python.git
 
 Deploy a local app with a local buildpack::
 
-    $ fiesta --app ./httpbin --buildpack ./python-buildpack
+    $ fiesta ./httpbin ./python-buildpack
 
 How?
 ----
